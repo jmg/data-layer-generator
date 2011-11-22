@@ -6,11 +6,11 @@ If you are bored to write the data access layer from scratch for every table in 
 
 This piece of code is a Data Layer SQL Generator for your Data Table Objects (DTOs). It provides the SQL statments to the basic operations in the database.
 
-It’s very simple to use:
+**It’s very simple to use:**
 
 ```python
 
-from Mapper import ObjectMapper
+from mapper import ObjectMapper
 
 class Person(object):
 
