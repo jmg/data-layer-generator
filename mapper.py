@@ -1,6 +1,6 @@
 """
     Python data layer generator
-    Author: Juan MAnuel García <jmg.utn@gmail.com>
+    Author: Juan MAnuel Garcia <jmg.utn@gmail.com>
 """
 
 class ObjectMapper(object):

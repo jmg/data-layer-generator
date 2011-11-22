@@ -28,7 +28,7 @@ m = ObjectMapper(p)
 
 >>> m.insert()
 "INSERT INTO person(age,name) VALUES ('22','john')"
->>> print m.update(id=1)
+>>> m.update(id=1)
 "UPDATE person SET age = '22', name = 'john' WHERE id_person = '1'"
 >>> m.delete(id=1)
 "DELETE FROM person WHERE id_person = 1"
