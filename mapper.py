@@ -5,6 +5,8 @@
 
 class ObjectMapper(object):
 
+    SQL_PARAM_SYMBOL = "?"
+
     def __init__(self, entity):
         self.entity = entity
 
@@ -23,16 +25,17 @@ class ObjectMapper(object):
     def insert(self):
         names, values = self._get_names_values()
         names = "%s" % ",".join(names)
-        values = "'%s'" % "','".join(values)
-        return "INSERT INTO %s(%s) VALUES (%s)" % (self.get_table(), names, values)
+        params = ",".join(["'?'" for x in values])
+        return ("INSERT INTO %s(%s) VALUES (%s)" % (self.get_table(), names, params), ) + tuple(values)
 
     def update(self, id):
         pairs = self._get_pairs()
-        fields = ", ".join(["%s = '%s'" % (k,v) for k,v in pairs])
-        return "UPDATE %s SET %s WHERE %s = '%s'" % (self.get_table(), fields, self.get_id(), id)
+        fields = ", ".join(["%s = '%s'" % (k, self.SQL_PARAM_SYMBOL) for k,v in pairs])
+        values = self._get_values()
+        return ("UPDATE %s SET %s WHERE %s = %s" % (self.get_table(), fields, self.get_id(), self.SQL_PARAM_SYMBOL), ) + tuple(values) + (id, )
 
     def delete(self, id):
-        return "DELETE FROM %s WHERE %s = %s" % (self.get_table(), self.get_id(), id)
+        return ("DELETE FROM %s WHERE %s = %s" % (self.get_table(), self.get_id(), self.SQL_PARAM_SYMBOL), id)
 
     def get_all(self):
         names = ", ".join(self._get_names())
@@ -40,7 +43,7 @@ class ObjectMapper(object):
 
     def get_by_id(self, id):
         names = ", ".join(self._get_names())
-        return "SELECT %s FROM %s WHERE %s = %s" % (names, self.get_table(), self.get_id(), id)
+        return ("SELECT %s FROM %s WHERE %s = %s" % (names, self.get_table(), self.get_id(), self.SQL_PARAM_SYMBOL), id)
 
     #Overridables
 

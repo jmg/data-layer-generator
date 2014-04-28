@@ -14,17 +14,26 @@ class Person(object):
 
 
 class TestMapper(unittest.TestCase):
-    
-    def test_sql(self):
-        
+
+    def setUp(self):
+
         p = Person()
-        m = ObjectMapper(p)
-        
-        self.assertEquals(m.insert(), "INSERT INTO person(age,name) VALUES ('22','john')")        
-        self.assertEquals(m.get_by_id(id=1), "SELECT age, name FROM person WHERE id_person = 1")        
-        self.assertEquals(m.get_all(), "SELECT age, name FROM person")        
-        self.assertEquals(m.delete(id=1), "DELETE FROM person WHERE id_person = 1")        
-        self.assertEquals(m.update(id=1), "UPDATE person SET age = '22', name = 'john' WHERE id_person = '1'")
+        self.m = ObjectMapper(p)
+
+    def test_insert(self):
+        self.assertEquals(self.m.insert(), ("INSERT INTO person(age,name) VALUES ('?','?')", '22', 'john'))
+
+    def test_get_by_id(self):
+        self.assertEquals(self.m.get_by_id(id=1), ('SELECT age, name FROM person WHERE id_person = ?', 1))
+
+    def test_select_all(self):
+        self.assertEquals(self.m.get_all(), "SELECT age, name FROM person")
+
+    def test_delete(self):
+        self.assertEquals(self.m.delete(id=1), ('DELETE FROM person WHERE id_person = ?', 1))
+
+    def test_update(self):
+        self.assertEquals(self.m.update(id=1), ("UPDATE person SET age = '?', name = '?' WHERE id_person = ?", '22', 'john', 1))
 
 
 unittest.main()

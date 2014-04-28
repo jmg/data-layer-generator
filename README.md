@@ -27,15 +27,15 @@ p = Person()
 m = ObjectMapper(p)
 
 >>> m.insert()
-"INSERT INTO person(age,name) VALUES ('22','john')"
+("INSERT INTO person(age,name) VALUES ('?','?')", '22', 'john')
 >>> m.update(id=1)
-"UPDATE person SET age = '22', name = 'john' WHERE id_person = '1'"
+("UPDATE person SET age = '?', name = '?' WHERE id_person = ?", '22', 'john', 1)
 >>> m.delete(id=1)
-"DELETE FROM person WHERE id_person = 1"
+('DELETE FROM person WHERE id_person = ?', 1)
 >>> m.get_all()
 "SELECT age, name FROM person"
 >>> m.get_by_id(id=1)
-"SELECT age, name FROM person WHERE id_person = 1"
+('SELECT age, name FROM person WHERE id_person = ?', 1)
 
 ```
 
