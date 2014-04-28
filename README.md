@@ -1,6 +1,11 @@
 # Python Data Access Layer Generator
 
+#### Update: SQL injection fix
+
+As some people noticed the previuos version that used to format sql parameters right into the generated string allowed potential attackers for sql injection. This is fixed by using variables symbols (?) and letting the python database API to properly format and escape the sql string.
+
 ----------------------------------------------------------------------
+
 
 If you are bored to write the data access layer from scratch for every table in your database and you don’t want include more dependencies in your proyect (like SQLAlquemy, Elixir, Django-ORM, SQLObjects) here’s the solution!
 
